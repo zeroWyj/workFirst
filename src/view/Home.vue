@@ -47,7 +47,7 @@
               <td>{{ item.quantity }}</td>
               <td>{{ item.price }}</td>
               <td>{{ item.priceNow }}</td>
-              <td>{{ item.priceNow * item.quantity }}</td>
+              <td>{{ (item.priceNow * item.quantity).toFixed(2) }}</td>
             </tr>
             </tbody>
           </table>
@@ -84,6 +84,7 @@ import mInput from '@/components/mInput';
 import mBtn from '@/components/mBtn';
 import mMenu from '@/components/mMenu';
 import mPopup from '@/components/mPopup';
+
 export default {
   name: "Home",
   components: {
@@ -101,7 +102,7 @@ export default {
         name: '鸡蛋',
         quantity: 1,
         price: '100',
-        priceNow: '50',
+        priceNow: '55.55',
         total: ''
       },
         {
@@ -109,11 +110,11 @@ export default {
           name: '白菜',
           quantity: 1,
           price: '100',
-          priceNow: '50',
+          priceNow: '66.66',
           total: ''
         }],
       nowIndex: 0,//当前选中
-      totalPrice: null,
+      totalPrice: 0,
       nowTime: '',
       isShow: true, //菜单栏状态
       isShowPo: false,
@@ -125,37 +126,37 @@ export default {
   mounted() {
     let _this = this
     document.onkeydown = function (event) {
-      let key = window.event.keyCode;
+      let key = event.keyCode;
       if (key === 27) {
-        window.event.preventDefault();
+        event.preventDefault();
         //esc退出
         console.log('退出')
-        if(_this.tabList && _this.tabList.length){
+        if (_this.tabList && _this.tabList.length) {
           _this.isShowPo = true
           return
         }
         _this.$router.push('/')
       } else if (key === 73) {
-        window.event.preventDefault();
+        event.preventDefault();
         //i 删除
         if (_this.tabList && _this.tabList.length) {
           _this.delList()
         }
         console.log('删除')
       } else if (key === 112 || key === 91) {
-        window.event.preventDefault();
+        event.preventDefault();
         //F1 显示隐藏
         _this.isShow = !_this.isShow
         console.log('显示隐藏')
       } else if (key === 38 && _this.tabList.length) {
-        window.event.preventDefault();
+        event.preventDefault();
         //上
         if (_this.nowIndex > 0) {
           _this.nowIndex--
         }
         console.log('上')
       } else if (key === 40 && _this.tabList.length) {
-        window.event.preventDefault();
+        event.preventDefault();
         //下
         if (_this.nowIndex < _this.tabList.length - 1) {
           _this.nowIndex++
@@ -168,9 +169,9 @@ export default {
     tabList: {
       handler(val) {
         if (val && val.length) {
-          this.totalPrice = null
+          this.totalPrice = 0
           val.forEach(item => {
-            this.totalPrice += item.quantity * item.priceNow
+            this.totalPrice = (item.quantity * item.priceNow + Number(this.totalPrice)).toFixed(2)
           })
         } else {
           this.totalPrice = null
@@ -181,7 +182,7 @@ export default {
     }
   },
   methods: {
-    closePo(){
+    closePo() {
       this.isShowPo = !this.isShowPo
     },
     showMore() {
@@ -228,7 +229,7 @@ export default {
       this.nowTime = year + "-" + month + "-" + date + "   " + hh + ":" + mm + ':' + ss;
     },
   },
-  }
+}
 </script>
 
 <style scoped>
@@ -279,28 +280,34 @@ table tbody tr td {
   background: url("../assets/clock.png") no-repeat center center;
   background-size: 14px 14px;
 }
-.top-iuser{
+
+.top-iuser {
   background: url("../assets/personal.png") no-repeat center center;
   background-size: 20px 20px;
 }
-.top-imsg{
+
+.top-imsg {
   margin-right: 30px;
   background: url("../assets/msg.png") no-repeat center center;
   background-size: 18px 20px;
 }
-.top-ipath{
+
+.top-ipath {
   margin-right: 30px;
   background: url("../assets/path.png") no-repeat center center;
   background-size: 20px 20px;
 }
-.top-iinter{
+
+.top-iinter {
   background: url("../assets/inter.png") no-repeat center center;
   background-size: 18px 20px;
 }
-.top-iinter_forbidden{
+
+.top-iinter_forbidden {
   background: url("../assets/inter_forbidden.png") no-repeat center center;
   background-size: 18px 20px;
 }
+
 .top-l-wrap {
   display: flex;
   align-items: center;
@@ -458,7 +465,8 @@ table tbody tr td {
   background: #1ed5b3;
   color: #fff;
 }
-.f-btns .f16{
+
+.f-btns .f16 {
   font-size: 16px;
   margin: 0;
 }
