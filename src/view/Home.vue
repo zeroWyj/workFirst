@@ -142,26 +142,22 @@ export default {
         if (_this.tabList && _this.tabList.length) {
           _this.delList()
         }
-        console.log('删除')
       } else if (key === 112 || key === 91) {
         event.preventDefault();
         //F1 显示隐藏
         _this.isShow = !_this.isShow
-        console.log('显示隐藏')
       } else if (key === 38 && _this.tabList.length) {
         event.preventDefault();
         //上
         if (_this.nowIndex > 0) {
           _this.nowIndex--
         }
-        console.log('上')
       } else if (key === 40 && _this.tabList.length) {
         event.preventDefault();
         //下
         if (_this.nowIndex < _this.tabList.length - 1) {
           _this.nowIndex++
         }
-        console.log('下')
       }
     }
   },
