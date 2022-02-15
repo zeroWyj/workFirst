@@ -40,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item,i) in tabList" :key="i" :class="nowIndex === i?'w-tab-active':''">
+            <tr v-for="(item,i) in tabList" :key="item.code" :class="nowIndex === i?'w-tab-active':''">
               <td>{{ i + 1 }}</td>
               <td>{{ item.code }}</td>
               <td>{{ item.name }}</td>
